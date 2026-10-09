@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.DS_Store
+*~
+# local test data from previewing the visitor stats
+site-data/
+*.sqlite
