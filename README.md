@@ -27,11 +27,17 @@ Open http://localhost:8000/. The stats dashboard is at http://localhost:8000/cgi
 
 ## Publish
 
+**On the UManitoba server** (`ssh opumni@ccl.cc.umanitoba.ca`). Keep the repo outside `public_html`, so `.git` is never public.
 ```sh
-./deploy.sh
+git clone https://github.com/nahidul-opu/nahidul-opu.github.io.git ~/website   # first time only
+cd ~/website
+git pull
+./deploy.sh --here
 ```
 
-It lists what will change on the server and asks before uploading. It asks for your UManitoba (IST Linux) password once per run. Afterwards, commit and push to GitHub as a backup.
+**From another machine:** run `./deploy.sh`. It uploads over ssh and asks for your UManitoba (IST Linux) password once per run.
+
+Either way, it lists what will change on the live site and asks before copying.
 
 To skip the password prompt, set up an SSH key once:
 ```sh
@@ -41,9 +47,8 @@ ssh-copy-id opumni@ccl.cc.umanitoba.ca
 
 ## First-time setup (once)
 
-1. Run `./deploy.sh`. The first upload replaces the old "Welcome!" page.
-2. Set the dashboard password:
-   `ssh -t opumni@ccl.cc.umanitoba.ca python3 public_html/cgi-bin/stats.py --set-password`
+1. Publish as above. The first run replaces the old "Welcome!" page.
+2. Set the dashboard password. On the server, run `python3 ~/public_html/cgi-bin/stats.py --set-password`; from another machine, run `ssh -t opumni@ccl.cc.umanitoba.ca python3 public_html/cgi-bin/stats.py --set-password`.
 3. Open https://home.cc.umanitoba.ca/~opumni/cgi-bin/stats.py and log in.
 4. On GitHub, open the repo's Settings → Pages and unpublish the site, so GitHub doesn't serve a second copy.
 
